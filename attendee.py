@@ -8,10 +8,7 @@ config.read('config.cfg')
 eventbrite_token = config['user_info']['eventbrite_token']
 trello_key = config['user_info']['trello_key']
 trello_token = config['user_info']['trello_token']
-
-
 event_id = config['site_ids']['event_id']#update event_id for each event
-
 
 response = requests.get("https://www.eventbriteapi.com/v3/users/me/?token=" + eventbrite_token) #log into eventbrite
 
