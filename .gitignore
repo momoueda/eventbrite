@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#Common credential files
+**/credential.json
+**/client_secrets.json
+**/client_secret.json
+
+# Read Me
+**/README.md
