@@ -19,7 +19,6 @@ attendees = requests.get( "https://www.eventbriteapi.com/v3/events/" +event_id+ 
 
 pagination = attendees.json()['pagination']
 count = pagination['object_count'] #get total number of orders
-print(count)
 
 #----sheets
 #leave this untouched
@@ -74,7 +73,6 @@ SPREADSHEET_ID = spreadsheet_id #get id from hyperlink and insert here; between 
 DATA_TO_APPEND = 'Sheet2!A1' #set where you want the data to appear
 
 #add dataframe into a tab in desired google sheets
-from pprint import pprint
 from googleapiclient import discovery
 def append_sheet_data(SCOPES,SPREADSHEET_ID,DATA_TO_APPEND):
     '''this function is for appending data into google sheets'''
@@ -88,8 +86,6 @@ def append_sheet_data(SCOPES,SPREADSHEET_ID,DATA_TO_APPEND):
                 "values" : [[event_name, 'date', count]] },
         range=DATA_TO_APPEND).execute()
 
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-SPREADSHEET_ID = '' #get id from hyperlink and insert here; the code between "https://docs.google.com/spreadsheets/d/" and "/edit"
 append_sheet_data(SCOPES,SPREADSHEET_ID,DATA_TO_APPEND)
 
   
