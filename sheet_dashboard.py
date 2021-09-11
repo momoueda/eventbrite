@@ -1,3 +1,6 @@
+#this code will import the total number of eventbrite tickets sold for an event at the time the code is run and export the count to a trello card and google sheets
+
+
 from collections import Counter
 import requests
 import json
@@ -7,9 +10,13 @@ config = ConfigParser()
 config.read('config.cfg')
 
 eventbrite_token = config['user_info']['eventbrite_token']
-
 event_id = config['eventbrite_ids']['event_id']#update event_id for each event
 event_name = 'R&D'
+
+trello_key = config['user_info']['trello_key']
+trello_token = config['user_info']['trello_token']
+card_id = config['trello_ids']['card_id']#update card_id for each trello card
+
 spreadsheet_id = config['sheets_ids']['sheets_id'] #update sheets_id for each google sheets
 
 response = requests.get("https://www.eventbriteapi.com/v3/users/me/?token=" + eventbrite_token) #log into eventbrite
@@ -21,9 +28,9 @@ pagination = attendees.json()['pagination']
 count = pagination['object_count'] #get total number of orders
 
 #get current date and time to be included in sheets
-from datetime import datetime
-now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
+from datetime import date
+today = date.today().strftime('%Y-%m-%d')
+print(today)
 #----sheets
 #leave this untouched
 #define gsheet_api_check to obtain permission
@@ -87,9 +94,25 @@ def append_sheet_data(SCOPES,SPREADSHEET_ID,DATA_TO_APPEND):
         valueInputOption = 'RAW',
         spreadsheetId=SPREADSHEET_ID,
         body = {"majorDimension" : 'ROWS', 
-                "values" : [[event_name, now, count]] },
+                "values" : [[event_name, today, count]] },
         range=DATA_TO_APPEND).execute()
 
 append_sheet_data(SCOPES,SPREADSHEET_ID,DATA_TO_APPEND)
 
-  
+  # This code will post comment to trello card
+
+
+url = "https://api.trello.com/1/cards/"+card_id+"/actions/comments" #url for the trello card
+query = {
+   'key': trello_key,
+   'token': trello_token,
+   'text': 'eventbrite: ' + str(count) #add the text to the comment here
+}
+
+response = requests.request(
+   "POST",
+   url,
+   params=query
+)
+
+print(response.text)
