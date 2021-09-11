@@ -20,6 +20,10 @@ attendees = requests.get( "https://www.eventbriteapi.com/v3/events/" +event_id+ 
 pagination = attendees.json()['pagination']
 count = pagination['object_count'] #get total number of orders
 
+#get current date and time to be included in sheets
+from datetime import datetime
+now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 #----sheets
 #leave this untouched
 #define gsheet_api_check to obtain permission
@@ -83,7 +87,7 @@ def append_sheet_data(SCOPES,SPREADSHEET_ID,DATA_TO_APPEND):
         valueInputOption = 'RAW',
         spreadsheetId=SPREADSHEET_ID,
         body = {"majorDimension" : 'ROWS', 
-                "values" : [[event_name, 'date', count]] },
+                "values" : [[event_name, now, count]] },
         range=DATA_TO_APPEND).execute()
 
 append_sheet_data(SCOPES,SPREADSHEET_ID,DATA_TO_APPEND)
