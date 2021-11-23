@@ -135,3 +135,10 @@ dmypy.json
 
 # Read Me
 **/README.md
+
+*.csv
+*.json
+*.cfg
+*.bat
+*.pickle
+.vs
