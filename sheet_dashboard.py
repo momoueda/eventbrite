@@ -32,7 +32,7 @@ today = date.today().strftime('%Y-%m-%d')
 
 #----sheets
 #leave this untouched
-#define gsheet_api_check to obtain permission
+#define gsheet_api_check to obtain permission; taken from tutorial (https://towardsdatascience.com/how-to-import-google-sheets-data-into-a-pandas-dataframe-using-googles-api-v4-2020-f50e84ea4530)
 import pickle
 import os.path
 from google_auth_oauthlib.flow import InstalledAppFlow
